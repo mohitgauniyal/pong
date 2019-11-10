@@ -1,4 +1,5 @@
 import turtle
+import os
 
 
 wn = turtle.Screen()
@@ -6,6 +7,11 @@ wn.title("Pong by Mohit Gauniyal")
 wn.bgcolor("black")
 wn.setup(width=800, height=600)
 wn.tracer(0)
+
+
+# Score
+score_a = 0
+score_b = 0
 
 
 # Paddle A
@@ -35,8 +41,8 @@ ball.shape("square")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 0.4
-ball.dy = 0.4
+ball.dx = 0.3
+ball.dy = 0.3
 
 
 # Pen
@@ -97,29 +103,40 @@ while True:
     if ball.ycor() > 290:
         ball.sety(290)
         ball.dy *= -1
+        os.system("aplay bounce.wav&")
     
 
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        os.system("aplay bounce.wav&")
  
 
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_a += 1
+        pen.clear()
+        pen.write(f"Player A : {score_a}    Player B : {score_b}", align="center", font=("Courier", 22, "normal"))
+
     
 
     if ball.xcor() < -390: 
         ball.goto(0, 0)
         ball.dx *= -1
+        score_b += 1
+        pen.clear()
+        pen.write(f"Player A : {score_a}    Player B : {score_b}", align="center", font=("Courier", 22, "normal"))
 
     
     # Paddle and ball collisions
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddle_b.ycor() + 40 and ball.ycor() > paddle_b.ycor() - 40):
         ball.setx(340)
         ball.dx *= -1
+        os.system("aplay bounce.wav&")
     
 
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddle_a.ycor() + 40 and ball.ycor() > paddle_a.ycor() - 40):
         ball.setx(-340)
         ball.dx *= -1
+        os.system("aplay bounce.wav&")
